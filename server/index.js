@@ -55,7 +55,7 @@ app.get('/getuser/:nom_user/:pwd',function(req,res){
 
  // get Ateliers
  app.get('/getatelier',function(req,res){   
-    var query="select nom  from atelier"
+    var query="select atelier_id , nom  from atelier"
     connection.query(query,function(error,results){
        if (error) {
            console.log(error)
@@ -71,6 +71,19 @@ app.post('/addetat',function(req,res){
     // si on insere toutes les colonnes on est pas oubliger de specifier 
     var query="INSERT INTO etat (etat_actuel , etat_future , user_id ,atelier_id) values (? ,? , ? ,? )"
     connection.query(query , [req.body.etat_actuel  , req.body.etat_future , req.body.user_id,req.body.atelier_id ],function(error,results){
+       if (error) {
+           console.log(error)
+           res.status(500).json({message:"server error"}) 
+       }
+       res.status(200).json("success")
+   })
+});
+  
+// add atelier
+app.post('/addatelier',function(req,res){  
+    // si on insere toutes les colonnes on est pas oubliger de specifier 
+    var query="INSERT INTO atelier (nom) values (?)"
+    connection.query(query , [req.body.nom],function(error,results){
        if (error) {
            console.log(error)
            res.status(500).json({message:"server error"}) 
