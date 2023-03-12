@@ -4,9 +4,17 @@ var mysql = require("mysql");
 const bodyParser = require('body-parser');
 const multer = require('multer')
 app.use(express.static('images')) ;
+app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
+
+
+
+const cors = require('cors');
+app.use(cors());
+
+app.use(bodyParser.urlencoded({extended:true}));
 
 // Connect to mysql 
 var connection = mysql.createConnection({

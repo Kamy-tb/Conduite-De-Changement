@@ -52,13 +52,27 @@ h1 {
   }
   
   .image-container img {
-    width: 300px;
-    height: 360px;
+    width: 360px;
+    height: 420px;
   }
   .principale{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+  }
+
+  .fixed-div {
+    position: fixed;
+  }
+
+  .scrollable-div {
+    position: relative;
+    /* Définir une hauteur maximale pour le div scrollable */
+    max-height: 400px;
+    /* Ajouter un défilement vertical au div */
+    overflow-y: scroll;
+    /* Définir une largeur flexible pour le div scrollable */
+    flex: 1;
   }
 
   .table {

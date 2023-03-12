@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './atelier.css';
 import etatsImg from './etats.jpg';
-import axios from 'axios';
+import Axios from 'axios'
 
 function App() {
 
@@ -14,10 +14,8 @@ function App() {
             `This is an HTTP error: The status is ${response.status}`
           );
         }
-        
         console.log(response.json)
         return response.json();
-        
       })
       .then((data) => {
         setData(data);
@@ -26,38 +24,31 @@ function App() {
   }, []);
 
 
-  const [inputValue, setInputValue] = useState('');
-
-  const handleChange = (event) => {
-    setInputValue(event.target.value);
-    console.log('inputValue:', inputValue);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('inputValue:', inputValue);
-    if (!inputValue) {
-      console.log('Error: Input value is empty');
-      return;
-    }
-    fetch('http://localhost:8082/addatelier', {
-      method: 'POST',
-       headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ atelier: inputValue }),
+  const [nom, setInputAtelier] = useState('');
+  const handleSubmit =() => {
+    Axios.post('http://localhost:8082/addatelier',
+    {nom : nom
+    }).then(()=>{
+      alert("sucess insert")
     })
-      .then((response) => {
-        console.log('Success:', response);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-    setInputValue('');
-  };
-  
- 
+  }
 
+/*
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(nom)
+    const response = await fetch("http://localhost:8082/addatelier", {
+      method: "POST",
+      mode: 'cors',
+      body: JSON.stringify({ nom: nom })
+    });
+    const json = await response.json()
+    console.log(json)
+    
+    setInputAtelier('');  
+  }; 
+ 
+*/
   return (
     <div class="principale">
       <div>
@@ -97,13 +88,15 @@ function App() {
       </div>
 
       <div className="atelier">
-        <h1>Ajouter un atelier</h1>
         <form onSubmit={handleSubmit}>
-         <label>
-             Entrer le nom de l'atelier à ajouter:
-         <input type="text" value={inputValue} onChange={handleChange} />
-        </label>
-        <button type="submit">Ajouter</button>
+          <label>
+          <span>Ajouter un atelier : </span>
+          <input type="text" name="atelier" value={nom} onChange={(e) => {
+              setInputAtelier(e.target.value);
+              console.log(e.target.value)
+            }} />
+          </label>
+          <button type="submit">Ajouter</button>
         </form>
 
       </div>
