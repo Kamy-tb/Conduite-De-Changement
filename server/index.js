@@ -45,6 +45,20 @@ app.use(function(req, res, next) {
    })
 });
 
+
+// get Ateliers / etats
+app.get('/getinfos/:nom',function(req,res){   
+    var query="SELECT a.nom, u.nom_user, e.date, e.etat_actuel, e.etat_future FROM atelier a JOIN etat e ON a.atelier_id = e.atelier_id JOIN user u ON u.user_id = e.user_id WHERE nom = ?"
+    connection.query(query , [req.params.nom],function(error,results){
+       if (error) {
+           console.log(error)
+           res.status(500).json({message:"server error"}) 
+       }
+    
+       res.status(200).json(results)
+   })
+});
+
 // get user
 app.get('/getuser/:nom_user/:pwd',function(req,res){
     var data = null    
@@ -73,6 +87,20 @@ app.get('/getuser/:nom_user/:pwd',function(req,res){
        res.status(200).json(results)
    })
 });
+
+ // get Ateliers
+ app.get('/getnamesateliers',function(req,res){   
+    var query="select  nom  from atelier"
+    connection.query(query,function(error,results){
+       if (error) {
+           console.log(error)
+           res.status(500).json({message:"server error"}) 
+       }
+    
+       res.status(200).json(results)
+   })
+});
+
 
 // add Etat
 app.post('/addetat',function(req,res){  

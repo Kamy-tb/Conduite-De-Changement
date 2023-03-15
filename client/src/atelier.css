@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 h1 {
     font-size: 24px;
     font-weight: bold;
@@ -50,6 +54,14 @@ h1 {
     padding: 20px;
     margin: 0 auto;
   }
+
+  .point {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+  }
   
   .image-container img {
     width: 360px;
@@ -61,21 +73,36 @@ h1 {
     justify-content: space-evenly;
   }
 
-  .fixed-div {
-    position: fixed;
+  .dropdown{
+    flex-direction: row;
   }
 
-  .scrollable-div {
-    position: relative;
-    /* Définir une hauteur maximale pour le div scrollable */
-    max-height: 400px;
-    /* Ajouter un défilement vertical au div */
-    overflow-y: scroll;
-    /* Définir une largeur flexible pour le div scrollable */
-    flex: 1;
+  select {
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    color: #333;
   }
+  
+  select:focus {
+    outline: none;
+    box-shadow: 0 0 3px 1px #ccc;
+  }
+  
+  option {
+    color: #333;
+    background-color: #f2f2f2;
+  }
+  
+  option:hover {
+    background-color: #ccc;
+  }
+  
 
   .table {
+    margin-top: 12px;
     border-collapse: collapse;
     width: 100%;
   }

@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import './atelier.css';
 import etatsImg from './etats.jpg';
+import './Dropdown.css';
 import Axios from 'axios'
 
 function App() {
 
-  const [data, setData] = useState([]);
+const [selectedOption, setSelectedOption] = useState('');
+
+
+
+
+const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:8082/getinfos")
+    let link = selectedOption
+      ? `http://localhost:8082/getinfos/${selectedOption}`
+      : "http://localhost:8082/getinfos";
+    console.log(selectedOption)
+    fetch(link)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -21,7 +31,7 @@ function App() {
         setData(data);
       })
       .catch((e) => console.log(e));
-  }, []);
+  }, [selectedOption]);
 
 
   const [nom, setInputAtelier] = useState('');
@@ -33,22 +43,16 @@ function App() {
     })
   }
 
-/*
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log(nom)
-    const response = await fetch("http://localhost:8082/addatelier", {
-      method: "POST",
-      mode: 'cors',
-      body: JSON.stringify({ nom: nom })
-    });
-    const json = await response.json()
-    console.log(json)
-    
-    setInputAtelier('');  
-  }; 
- 
-*/
+  const [options, setOptions] = useState([]);
+  
+    useEffect(() => {
+      // Fetch options from the backend
+      fetch('http://localhost:8082/getnamesateliers')
+        .then(response => response.json())
+        .then(data => setOptions(data))
+        .catch(error => console.error(error));
+    }, []);
+
   return (
     <div class="principale">
       <div>
@@ -57,12 +61,26 @@ function App() {
           <img src={etatsImg} alt="Capture de l'arbre des etats" />
         </div>
       </div>
-      
 
       <div>
 
       <div>
+        <div >
         <h1>Informations - Conduite de changement</h1>
+
+        <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+          <option disabled value="">All</option> {/* Ajouter value="" pour réinitialiser la sélection */}
+          {options.map(option => (
+           <option key={option} value={option.nom}>{option.nom}</option>
+           ))}
+        </select>
+
+
+
+        </div>
+
+        
+      
         <table className="table">
         <thead>
           <tr>
